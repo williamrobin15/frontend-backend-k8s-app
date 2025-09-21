@@ -1,6 +1,3 @@
-Superb 🙌 maine aapke repo ka structure check kar liya. Yeh raha:
-
-```
 # Frontend-Backend Kubernetes App
 
 This repository contains a simple **frontend and backend application** deployed on **Kubernetes** using YAML manifests.
