@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-frontend-deployment
+  namespace: frontend
+  labels:
+    helloworld: helloworld-frontend-app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      helloworld: helloworld-frontend-app
+  template:
+    metadata:
+      labels:
+        helloworld: helloworld-frontend-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: helloworld
+                operator: In
+                values:
+                - "helloworld-frontend-app"
+      containers:
+      - name: helloworld-frontend-app
+        image: gcr.io/helloworld/k8
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 250m
+            memory: 250Mi
+          requests:
+            cpu: 150m
+            memory: 200Mi

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-backend-deployment
+  namespace: backend
+  labels:
+    helloworld: helloworld-backend-app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      helloworld: helloworld-backend-app
+  template:
+    metadata:
+      labels:
+        helloworld: helloworld-backend-app 
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: helloworld
+                operator: In
+                values:
+                - "helloworld-backend-app"
+      containers:
+      - name: helloworld-backend-app
+        image: gcr.io/helloworld-backend/k8
+        volumeMounts:
+        - mountPath: /helloworld/logs
+          name: helloworld-backend-log-pvc
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            memory: 400Mi
+            cpu: 150m
+          limits:
+            cpu: 250m
+      volumes:
+      - name: helloworld-backend-log-pvc
+        persistentVolumeClaim:
+          claimName: helloworld-backend-log-pvc
+          readOnly: false

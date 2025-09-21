@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-frontend-service
+  namespace: frontend
+  annotations:
+    cloud.google.com/app-protocols: '{"helloworld-frontend-http-port":"HTTP"}'
+    #cloud.google.com/backend-config: '{"default": "my-backendconfig"}'
+    cloud.google.com/neg: '{"exposed_ports": {"8080":{"name": "helloworld-frontend-neg"}}}'
+spec:
+  ports:
+  - name: helloworld-frontend-port
+    port: 8080
+    targetPort: 8080
+  selector:
+    helloworld: helloworld-frontend-app
+  type: NodePort
