@@ -38,6 +38,7 @@ It demonstrates how to run and connect multi-service applications on Kubernetes 
 
 * Kubernetes Cluster (Minikube, Kind, GKE, EKS, or AKS)
 * `kubectl` installed and configured
+* gcr must be setup with hello world image
 * Docker (if you need to build custom images)
 
 ---
